@@ -1,0 +1,37 @@
+[project]
+name = "client"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Kattyan", email = "hello@kattyan.dev" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+module-name = "client._rust"
+python-source = "src"
+
+[project.scripts]
+client = "client:main"
+
+[build-system]
+requires = ["maturin>=1.8.2"]
+build-backend = "maturin"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+pythonpath = ["src"]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "maturin>=1.8.2",
+    "mypy>=1.15.0",
+    "pytest>=8.3.4",
+    "pytest-cov>=6.0.0",
+    "ruff>=0.9.4",
+]

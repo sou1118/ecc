@@ -1,0 +1,13 @@
+{
+    "include": [
+        "src_py",
+        "tests"
+    ],
+    "extraPaths": [
+        "src_py"
+    ],
+    "typeCheckingMode": "basic",
+    "reportMissingImports": "warning",
+    "stubPath": "stubs",
+    "pythonVersion": "3.13"
+}

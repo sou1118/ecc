@@ -1,0 +1,73 @@
+[tasks.create-venv]
+script = """
+uv venv .venv
+source .venv/bin/activate
+uv pip install patchelf
+"""
+script_runner = "bash"
+
+[tasks.build-rust]
+dependencies = ["create-venv"]
+script = """
+source .venv/bin/activate
+uvx maturin develop --release
+"""
+script_runner = "bash"
+
+[tasks.install-dev]
+dependencies = ["build-rust"]
+script = """
+source .venv/bin/activate
+uv pip install -e ".[dev]"
+"""
+script_runner = "bash"
+
+[tasks.python-test]
+dependencies = ["install-dev"]
+script = """
+source .venv/bin/activate
+uvx pytest tests/test_curve.py -v
+"""
+script_runner = "bash"
+
+[tasks.test]
+clear = true
+dependencies = ["python-test"]
+
+[tasks.format-python]
+dependencies = ["install-dev"]
+script = """
+source .venv/bin/activate
+uvx black src tests
+uvx ruff check --fix src tests
+"""
+script_runner = "bash"
+
+[tasks.check-python]
+dependencies = ["install-dev"]
+script = """
+source .venv/bin/activate
+uvx mypy src tests
+uvx ruff check src tests
+"""
+script_runner = "bash"
+
+[tasks.clean-all]
+script = """
+rm -rf .venv
+rm -rf target
+find . -type d -name "__pycache__" -exec rm -r {} +
+find . -type f -name "*.pyc" -delete
+find . -type d -name ".pytest_cache" -exec rm -r {} +
+find . -type f -name "*.so" -delete
+"""
+script_runner = "bash"
+
+[tasks.clean]
+dependencies = ["clean-all"]
+
+[tasks.ci]
+dependencies = ["check-python", "test"]
+
+[tasks.default]
+dependencies = ["test"]
