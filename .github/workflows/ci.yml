@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install mise
-        uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8
+        uses: jdx/mise-action@c94f0bf9e520b150e34c017db785461f7e71c5fb
 
       - name: Cache mise
         uses: actions/cache@v4
@@ -60,7 +60,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install mise
-        uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8
+        uses: jdx/mise-action@c94f0bf9e520b150e34c017db785461f7e71c5fb
 
       - name: Set up Python
         run: mise i
